@@ -59,7 +59,7 @@ jobs:
       run: |
         echo "install python library"
         python3 -m pip install --upgrade pip
-        python3 -m pip install -r github_desktop-agent/requirements_mac.txt
+        python3 -m pip install -r blockatm-guard/requirements_mac.txt
 
         echo "pack mac app"
         python3 script/build.py -f pack_mac.yaml

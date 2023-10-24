@@ -66,7 +66,7 @@ jobs:
     - name: pack
       run: |
         echo "install python library"
-        python3 -m pip install -r github_desktop-agent/requirements_windows.txt
+        python3 -m pip install -r blockatm-guard/requirements_windows.txt
 
         echo "pack windows exe"
         python3 .\script\build.py -f .\pack_windows.yaml
