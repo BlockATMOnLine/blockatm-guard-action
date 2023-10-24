@@ -128,7 +128,7 @@ def main(file : str):
         cmd = f'pyinstaller -D -w -n {exe_name} ./{app_project_name}/app/main.py'
     os.system(cmd)
 
-    print('pack app')
+    print('pack app success')
 
     if OSName.OS_WINDOWS == os_name:
         
