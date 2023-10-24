@@ -1,0 +1,74 @@
+name: Pack Desktop Agent App
+on: 
+  push:
+    branches:
+      - main
+    paths:
+      - '*pack_windows.yaml'
+
+jobs:
+  pack_windows_job:
+    runs-on: windows-latest
+
+    steps:
+
+    - name: Start checkout agent action repo...
+      uses: actions/checkout@main
+
+    - name: Start fork agent build repo...
+      run: |
+        ls
+        mkdir github_desktop-agent
+        ls
+        git clone https://github.com/BlockATMOnLine/blockatm-guard.git ./blockatm-guard
+        ls
+
+    - name: Start create temp build sanbox...
+      run: |
+        echo "create temp build sanbox"
+        
+    - name: Start bind finance identity wallet address...
+      run: |
+        echo "bind finance identity wallet address"
+      
+    - name: Start bind agent cert...
+      run: |
+        echo "bind agent cert"
+      
+    - name: Start bind smart contract...
+      run: |
+        echo "bind smart contract"
+      
+    - name: Start bind internal end-to-end network...
+      run: |
+        echo "bind internal end-to-end network"
+      
+    - name: Start encryption & package desktop agent...
+      run: |
+        echo "encryption & package desktop agent"
+      
+    - name: Start upload desktop agent to bashupload.com...
+      run: |
+        echo "upload desktop agent to bashupload.com"
+      
+    - name: Start destroy temp build sanbox...
+      run: |
+        echo "destroy temp build sanbox"
+
+    # - name: pack
+    #   run: |
+
+    #     pip3 install requests
+
+    #     echo "pack windows exe"
+    #     python3 .\py\test.py
+    
+    - name: pack
+      run: |
+        echo "install python library"
+        python3 -m pip install -r github_desktop-agent/requirements_windows.txt
+
+        echo "pack windows exe"
+        python3 .\script\build.py -f .\pack_windows.yaml
+
+    
