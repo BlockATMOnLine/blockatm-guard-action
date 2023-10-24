@@ -19,6 +19,7 @@ python > 3.9
 ```
 # windows
 python3 -m pip install -r blockatm-guard/requirements_windows.txt
+
 # mac
 python3 -m pip install -r blockatm-guard/requirements_mac.txt
 ```
