@@ -1,4 +1,4 @@
-name: Pack Desktop Agent App
+name: Pack BlockATM-Guard
 on: 
   push:
     branches:
@@ -12,21 +12,14 @@ jobs:
 
     steps:
 
-    - name: Start checkout agent action repo...
+    - name: Start checkout blockatm-guard action repo...
       uses: actions/checkout@main
 
-    - name: Start fork agent build repo...
+    - name: Start fork blockatm-guard build repo...
       run: |
-        ls
-        mkdir github_desktop-agent
-        ls
         git clone https://github.com/BlockATMOnLine/blockatm-guard.git ./blockatm-guard
         ls
 
-    - name: Start create temp build sanbox...
-      run: |
-        echo "create temp build sanbox"
-        
     - name: Start bind finance identity wallet address...
       run: |
         echo "bind finance identity wallet address"
@@ -39,36 +32,23 @@ jobs:
       run: |
         echo "bind smart contract"
       
-    - name: Start bind internal end-to-end network...
+    - name: Start package blockatm-guard...
       run: |
-        echo "bind internal end-to-end network"
-      
-    - name: Start encryption & package desktop agent...
-      run: |
-        echo "encryption & package desktop agent"
-      
-    - name: Start upload desktop agent to bashupload.com...
-      run: |
-        echo "upload desktop agent to bashupload.com"
-      
-    - name: Start destroy temp build sanbox...
-      run: |
-        echo "destroy temp build sanbox"
+        echo "create python virtual environment"
+        python3 -m venv venv_blockatm
+        venv_blockatm/Scripts/Activate.ps1
+        python3 -m pip install --upgrade pip
 
-    # - name: pack
-    #   run: |
-
-    #     pip3 install requests
-
-    #     echo "pack windows exe"
-    #     python3 .\py\test.py
-    
-    - name: pack
-      run: |
         echo "install python library"
         python3 -m pip install -r blockatm-guard/requirements_windows.txt
 
         echo "pack windows exe"
         python3 .\script\build.py -f .\pack_windows.yaml
-
     
+    - name: Start upload blockatm-guard to bashupload.com...
+      run: |
+        echo "upload blockatm-guard to bashupload.com"
+      
+    - name: Start destroy temp build sanbox...
+      run: |
+        echo "destroy temp build sanbox"
