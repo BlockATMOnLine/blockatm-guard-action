@@ -121,7 +121,7 @@ def main(file : str):
 
     print('pack app')
     # 打包
-    exe_name = "blockatm-guard"
+    exe_name = "desktop_agent"
     if OSName.OS_WINDOWS == os_name:
         cmd = f'pyinstaller -D -w -i ./{app_project_name}/app/resource/favicon.ico -n {exe_name} ./{app_project_name}/app/main.py'
     else:
