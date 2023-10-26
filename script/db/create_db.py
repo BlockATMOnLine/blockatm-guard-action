@@ -58,7 +58,8 @@ def create_db(file : str, aes_key : str, encrypt_dbname : str, decrypt_dbname : 
                     wallet_address VARCHAR(128) NOT NULL,
                     amount VARCHAR(64)  NOT NULL,
                     uid VARCHAR(128) NOT NULL,
-                    biz_name VARCHAR(128) NOT NULL
+                    biz_name VARCHAR(128) NOT NULL,
+                    txid VARCHAR(128)  NOT NULL
                     );''')
 
         conn.execute('''CREATE TABLE agent_login_log
