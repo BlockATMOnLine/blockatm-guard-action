@@ -32,13 +32,22 @@ jobs:
       run: |
         echo "bind smart contract"
       
+    # - name: Start package blockatm-guard...
+    #   run: |
+    #     echo "create python virtual environment"
+    #     python3 -m venv venv_blockatm
+    #     venv_blockatm/Scripts/Activate.ps1
+    #     python3 -m pip install --upgrade pip
+
+    #     echo "install python library"
+    #     python3 -m pip install -r blockatm-guard/requirements_windows.txt
+
+    #     echo "pack windows exe"
+    #     python3 .\script\build.py -f .\pack_windows.yaml
+    
     - name: Start package blockatm-guard...
       run: |
-        echo "create python virtual environment"
-        python3 -m venv venv_blockatm
-        venv_blockatm/Scripts/Activate.ps1
-        python3 -m pip install --upgrade pip
-
+      
         echo "install python library"
         python3 -m pip install -r blockatm-guard/requirements_windows.txt
 
