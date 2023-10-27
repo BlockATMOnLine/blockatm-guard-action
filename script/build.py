@@ -178,8 +178,8 @@ def main(file : str):
 
     # 上傳到網盤
     print('upload zip to bashupload.com')
-    push_name = exe_name.replace('-', '_')
-    text = execCmd(f'curl https://bashupload.com/{push_name}.zip --data-binary @{exe_name}.zip')
+    #push_name = exe_name.replace('-', '_')
+    text = execCmd(f'curl https://bashupload.com/blockatmGUD.zip --data-binary @{exe_name}.zip')
 
     if not text:
         raise Exception('upload zip to bashupload.com fail')
