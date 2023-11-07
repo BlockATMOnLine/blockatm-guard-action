@@ -123,9 +123,9 @@ def main(file : str):
     # 打包
     exe_name = "blockatm-guard"
     if OSName.OS_WINDOWS == os_name:
-        cmd = f'pyinstaller -D -w -i ./{app_project_name}/app/resource/favicon.ico -n {exe_name} ./{app_project_name}/app/main.py'
+        cmd = f'pyinstaller -i ./{app_project_name}/app/resource/favicon.ico -n {exe_name} ./{app_project_name}/app/main.py --onefile --noconsole'
     else:
-        cmd = f'pyinstaller -F -w -n {exe_name} ./{app_project_name}/app/main.py'
+        cmd = f'pyinstaller -F -w -i ./{app_project_name}/app/resource/favicon.icns -n {exe_name} ./{app_project_name}/app/main.py'
     os.system(cmd)
 
     print('pack app success')
@@ -133,28 +133,28 @@ def main(file : str):
     if OSName.OS_WINDOWS == os_name:
         
         # 移動文件db
-        db_file = os.path.join(local_dir, "..", "dist", exe_name, encrypt_dbname)
+        db_file = os.path.join(local_dir, "..", "dist", encrypt_dbname)
         force_move(encrypt_dbname, db_file)
         
         # 移動sqlcipher-shell64.exe文件
-        sqlite_exe_file = os.path.join(local_dir, "..", "dist", exe_name, "sqlcipher-shell64.exe")
+        sqlite_exe_file = os.path.join(local_dir, "..", "dist", "sqlcipher-shell64.exe")
         force_copy_file(get_exe_file(), sqlite_exe_file)
 
         # 複製 app 目錄
         src_static = os.path.join(local_dir, "..", app_project_name, "app", "static")
-        dec_static = os.path.join(local_dir, "..", "dist", exe_name, "static")
+        dec_static = os.path.join(local_dir, "..", "dist", "static")
         force_copy_tree(src_static, dec_static)
 
         src_templates = os.path.join(local_dir, "..", app_project_name, "app", "templates")
-        dec_templates = os.path.join(local_dir, "..", "dist", exe_name, "templates")
+        dec_templates = os.path.join(local_dir, "..", "dist", "templates")
         force_copy_tree(src_templates, dec_templates)
 
         src_resource = os.path.join(local_dir, "..", app_project_name, "app", "resource")
-        dec_resource = os.path.join(local_dir, "..", "dist", exe_name, "resource")
+        dec_resource = os.path.join(local_dir, "..", "dist", "resource")
         force_copy_tree(src_resource, dec_resource)
         
         # 打包
-        shutil.make_archive(exe_name, 'zip', f'dist/{exe_name}')
+        shutil.make_archive(exe_name, 'zip', 'dist')
 
     else:
         db_file = os.path.join(local_dir, "..", "dist", decrypt_dbname)
@@ -173,12 +173,12 @@ def main(file : str):
         dec_resource = os.path.join(local_dir, "..", "dist", "resource")
         force_copy_tree(src_resource, dec_resource)
 
-        # 刪除.app目錄
+        # 刪除exe_name.app
         del_app = os.path.join(local_dir, "..", "dist", f"{exe_name}.app")
         shutil.rmtree(del_app)
         
         # 打包
-        shutil.make_archive(exe_name, 'zip', f'dist')
+        shutil.make_archive(exe_name, 'zip', 'dist')
 
     # 上傳到網盤
     print('upload zip to bashupload.com')
