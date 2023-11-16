@@ -1,0 +1,3 @@
+app_url:
+  windows: https://github.com/BlockATMOnLine/blockatm-guard/releases/download/V1.0.0/blockatm_guard-v1.0.0-win64.zip
+  mac: https://github.com/BlockATMOnLine/blockatm-guard/releases/download/V1.0.0/blockatm_guard-v1.0.0-macos.zip

@@ -31,7 +31,7 @@ jobs:
     - name: Start bind smart contract...
       run: |
         echo "bind smart contract"
-    
+
     - name: Start pack blockatm-guard
       run: |
         echo "create python virtual environment"

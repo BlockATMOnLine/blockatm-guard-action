@@ -19,6 +19,12 @@ jobs:
       run: |
         git clone https://github.com/BlockATMOnLine/blockatm-guard.git ./blockatm-guard
         ls
+    
+    # - name: Start download upx...
+    #   run: |
+    #     pip3 install requests
+    #     python3 script/tool/download_upx.py
+    #     ls
 
     - name: Start bind finance identity wallet address...
       run: |
@@ -31,19 +37,28 @@ jobs:
     - name: Start bind smart contract...
       run: |
         echo "bind smart contract"
-      
+    
     - name: Start package blockatm-guard...
       run: |
-        echo "create python virtual environment"
-        python3 -m venv venv_blockatm
-        venv_blockatm/Scripts/Activate.ps1
-        python3 -m pip install --upgrade pip
 
         echo "install python library"
-        python3 -m pip install -r blockatm-guard/requirements_windows.txt
+        python3 -m pip install -r requirements.txt
 
         echo "pack windows exe"
-        python3 .\script\build.py -f .\pack_windows.yaml
+        python3 .\script\build_windows.py -f .\pack_windows.yaml
+      
+    # - name: Start package blockatm-guard...
+    #   run: |
+    #     echo "create python virtual environment"
+    #     python3 -m venv venv_blockatm
+    #     venv_blockatm/Scripts/Activate.ps1
+    #     python3 -m pip install --upgrade pip
+
+    #     echo "install python library"
+    #     python3 -m pip install -r blockatm-guard/requirements_windows.txt
+
+    #     echo "pack windows exe"
+    #     python3 .\script\build.py -f .\pack_windows.yaml
     
     - name: Start upload blockatm-guard to bashupload.com...
       run: |

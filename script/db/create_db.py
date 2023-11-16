@@ -8,12 +8,12 @@ import argparse
 import sqlite3
 import traceback
 from .acs import aesdecrypt
-from pypi_sqlite_cipher.pysqlite_cipher import encryption_sqlite_file
+from .sqlcrypt import Connection
 
 # python .\create_db.py -f 19.yaml -e agentapp_encrypt.db -d agentapp_decrypt.db -p 123456
-# python .\create_db.py -f 19.yaml -e agentapp_encrypt.db -d agentapp_decrypt.db -p 123456 -a b2b@github@2023.
+# python create_db.py -f 19.yaml -v 3.1.4 -e agentapp_encrypt.db -d agentapp_decrypt.db -p 123456 -a b2b@github@2023.
 
-def create_db(file : str, aes_key : str, encrypt_dbname : str, decrypt_dbname : str, password : str, need_encrypt : bool):
+def create_db(file : str, front_version : str, aes_key : str, encrypt_dbname : str, decrypt_dbname : str, password : str, need_encrypt : bool):
     try:
 
         print(f'need_encrypt = {need_encrypt}')
@@ -28,7 +28,8 @@ def create_db(file : str, aes_key : str, encrypt_dbname : str, decrypt_dbname : 
         conf_str = json.dumps(conf)
         
         # 连接db
-        conn = sqlite3.connect(decrypt_dbname)
+        #conn = sqlite3.connect(decrypt_dbname)
+        conn = Connection(encrypt_dbname, password)
 
         # 建表
         conn.execute('''CREATE TABLE agent_order
@@ -83,33 +84,21 @@ def create_db(file : str, aes_key : str, encrypt_dbname : str, decrypt_dbname : 
                     yaml_file VARCHAR(256) NOT NULL,
                     config JSON NOT NULL,
                     update_time int NOT NULL,
-                    aes_key VARCHAR(256) NOT NULL
+                    aes_key VARCHAR(256) NOT NULL,
+                    front_version VARCHAR(32) NOT NULL
                     );''')
 
         # 插入配置
         update_time = int(time.time())
-        sql = f"INSERT INTO agent_config(yaml_file, config, update_time, aes_key) VALUES ('{filename}', '{conf_str}', {update_time}, '{aes_key}');"
+        sql = f"INSERT INTO agent_config(yaml_file, config, update_time, aes_key, front_version) VALUES ('{filename}', '{conf_str}', {update_time}, '{aes_key}', '{front_version}');"
         cursor = conn.execute(sql)
-        cursor = conn.commit()
-
+        
         # sql = "select * from agent_config;"
         # cursor = conn.execute(sql)
         # print(cursor.fetchall())
 
         conn.close()
 
-        # 加密数据库
-        if need_encrypt:
-            res = encryption_sqlite_file(decrypt_dbname, password)
-            os.rename('encrypted.db', encrypt_dbname)
-
-            print(res)
-
-            if res[0] == 'success':
-                return True
-            else:
-                return False
-        
         return True
 
     except Exception as err:
@@ -123,6 +112,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='')
     parser.add_argument("-f", "--file", required=True, help="yaml file")
+    parser.add_argument("-v", "--front_version", required=True, help="前端版本")
     parser.add_argument("-e", "--encrypt_dbname", required=True, help="加密db")
     parser.add_argument("-d", "--decrypt_dbname", required=True, help="非加密db")
     parser.add_argument("-p", "--password", required=True, help="password")
@@ -130,4 +120,4 @@ if __name__ == '__main__':
 
     known_args = parser.parse_args()
 
-    sys.exit(create_db(known_args.file, known_args.aes_key, known_args.encrypt_dbname, known_args.decrypt_dbname, known_args.password))
+    sys.exit(create_db(known_args.file, known_args.front_version, known_args.aes_key, known_args.encrypt_dbname, known_args.decrypt_dbname, known_args.password, True))
