@@ -77,18 +77,15 @@ def main(file : str):
     
     print('webhook get key success')
 
-    # 獲取前端版本信息
-    print('get front version')
+    # 獲取app配置信息
+    print('get app_conf')
     front_version = ''
     app_conf_path_file = os.path.join(app_project_name, 'app', 'conf.yaml')
+    app_conf = {}
     with open(app_conf_path_file, encoding = 'utf-8') as f:
-        conf : dict = yaml.full_load(f)
-        front_version = conf.get('front_version', '')
-
-    if not front_version:
-        raise Exception('get front version error!')
+        app_conf = yaml.full_load(f)
     
-    print('get front version success')
+    print('get app_conf success')
 
     # 創建 db
     local_dir = os.path.dirname(os.path.realpath(__file__))
@@ -105,10 +102,10 @@ def main(file : str):
     db_password = '123456'
     #print(f'db_password = {db_password}')
     if OSName.OS_WINDOWS == os_name:
-        if not create_db(config_file_path, front_version, key, encrypt_dbname, decrypt_dbname, db_password, True):
+        if not create_db(config_file_path, app_conf, key, encrypt_dbname, decrypt_dbname, db_password, True):
             raise Exception("create db error!")
     else:
-        if not create_db(config_file_path, front_version, key, encrypt_dbname, decrypt_dbname, db_password, False):
+        if not create_db(config_file_path, app_conf, key, encrypt_dbname, decrypt_dbname, db_password, False):
             raise Exception("create db error!")
 
     print("create db success!")

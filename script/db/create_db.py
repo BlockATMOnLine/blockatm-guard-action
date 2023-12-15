@@ -13,8 +13,11 @@ from .sqlcrypt import Connection
 # python .\create_db.py -f 19.yaml -e agentapp_encrypt.db -d agentapp_decrypt.db -p 123456
 # python create_db.py -f 19.yaml -v 3.1.4 -e agentapp_encrypt.db -d agentapp_decrypt.db -p 123456 -a b2b@github@2023.
 
-def create_db(file : str, front_version : str, aes_key : str, encrypt_dbname : str, decrypt_dbname : str, password : str, need_encrypt : bool):
+def create_db(file : str, app_conf : dict, aes_key : str, encrypt_dbname : str, decrypt_dbname : str, password : str, need_encrypt : bool):
     try:
+
+        front_version = app_conf.get('front_version')
+        update_conf_url = app_conf.get('update_conf_url')
 
         print(f'need_encrypt = {need_encrypt}')
         
@@ -85,12 +88,13 @@ def create_db(file : str, front_version : str, aes_key : str, encrypt_dbname : s
                     config JSON NOT NULL,
                     update_time int NOT NULL,
                     aes_key VARCHAR(256) NOT NULL,
-                    front_version VARCHAR(32) NOT NULL
+                    front_version VARCHAR(32) NOT NULL,
+                    update_conf_url VARCHAR(256) NOT NULL
                     );''')
 
         # 插入配置
         update_time = int(time.time())
-        sql = f"INSERT INTO agent_config(yaml_file, config, update_time, aes_key, front_version) VALUES ('{filename}', '{conf_str}', {update_time}, '{aes_key}', '{front_version}');"
+        sql = f"INSERT INTO agent_config(yaml_file, config, update_time, aes_key, front_version, update_conf_url) VALUES ('{filename}', '{conf_str}', {update_time}, '{aes_key}', '{front_version}', '{update_conf_url}');"
         cursor = conn.execute(sql)
         
         # sql = "select * from agent_config;"
